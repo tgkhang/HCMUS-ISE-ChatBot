@@ -1,12 +1,12 @@
-# HCMUS-ISE-ChatBot  following folders (your repos should be in private mode): 
-o /src: used to store source code 
-o /docs: used to store documentations, which has the following folders 
-    ▪ management: storing planning documents, reports (weekly report, 
-project status report, etc.) 
-    ▪ requirements: storing all requirements, including vision document and 
-use cases 
-    ▪ analysis and design: storing all analysis and design related documents, 
-including software architecture document, UML models, UI design 
-    ▪ test: storing all test documents such as test plan, test cases, test reports 
-o /pa: including subfolders to store submissions. Each subfolder contains one PA 
-submission.     
+# HCMUS-ISE-ChatBot
+
+### Folder Structure
+The following folders should be in your repository (make sure it is set to private mode):
+
+- **/src**: used to store source code
+- **/docs**: used to store documentation, with the following subfolders:
+  - **management**: storing planning documents, reports (e.g., weekly reports, project status reports)
+  - **requirements**: storing all requirements, including vision document and use cases
+  - **analysis and design**: storing all analysis and design-related documents, including the software architecture document, UML models, and UI designs
+  - **test**: storing all test documents such as test plans, test cases, and test reports
+- **/pa**: includes subfolders to store submissions. Each subfolder contains one PA submission.
