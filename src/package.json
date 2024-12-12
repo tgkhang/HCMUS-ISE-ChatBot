@@ -24,7 +24,9 @@
     "node-mailjet": "^6.0.6",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
-    "sequelize": "^6.37.5"
+    "sequelize": "^6.37.5",
+    "pg": "^8.13.1",
+		"pg-hstore": "^2.3.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
