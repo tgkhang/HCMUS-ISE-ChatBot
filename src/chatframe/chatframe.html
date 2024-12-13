@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot UI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="left-sidebar">
+        <button class="new-chat">
+            <p class="new-chat">New chat</p>
+            <img src="plus.png" alt="plus icon">
+        </button>
+
+        <div class="log-out">
+            <img src="logout.png" alt="log out icon">
+            <p class="LogOutText">Log out</p>   
+        </div>
+        
+        <div class="chat-history">
+            <div class="history-frame">
+                <p>Chatbot definition explain</p>
+            </div>
+            <img src="message.png" alt="message icon" class="message-icon">
+            <img src="pen.png" alt="pen icon" class="pen-icon">
+            <img src="bin.png" alt="bin icon" class="bin-icon">
+            <img src="share.png" alt="share icon" class="share-icon">
+        </div>  
+    </div>
+
+    <div class="user-query">
+        <p class="query-text">User's query</p>
+        <img src="usericon.png" alt="user icon" class="user-icon">
+    </div>
+
+    <div class="bot-answer">
+        <div class="bot-info">
+            <p class="answer-text">Bot's answer</p>
+            <img src="gpticon.png" alt="gpt icon" class="bot-icon">
+        </div>
+        
+        <div class="rating"></div>
+            <img src="like.png" alt="like icon" class="like-icon">
+            <img src="dislike.png" alt="dislike icon" class="dislike-icon">
+        </div>
+        
+    </div>
+
+    <button class="regenerate-response">
+        <p>Regenerate response<p>
+        <div class="Refresh" style="width: 11px; height: 9px; left: 14px; top: 14px; position: absolute">
+            <div class="Vector" style="width: 3px; height: 3px; left: 0px; top: 0.50px; position: absolute; border: 0.75px #C5C5D1 solid"></div>
+            <div class="Vector" style="width: 3px; height: 3px; left: 8px; top: 5.50px; position: absolute; border: 0.75px #C5C5D1 solid"></div>
+            <div class="Vector" style="width: 11px; height: 9px; left: 0px; top: 0px; position: absolute; border: 0.75px #C5C5D1 solid"></div>
+        </div>
+    </button>
+ 
+    
+    <div class="input-field">
+        <input class="ask-bot", type="text", placeholder="Ask the bot">
+        <img src="send.png" alt="send icon" class="send-icon">
+    </div>
+
+
+    <button class="model-selection">
+        <p><strong>Change AI Model</strong></p>
+        <img src="change.png" alt="change icon" class="change-icon">
+    </button>
+    
+</body>

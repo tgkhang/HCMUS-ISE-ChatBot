@@ -1,0 +1,39 @@
+body {
+    background-color: #f8f9fa;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .form-container {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+  }
+  .form-container img {
+    width: 50px;
+    margin-bottom: 20px;
+  }
+  .form-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .btn-custom {
+    background-color: #28a745;
+    color: #fff;
+  }
+  .btn-custom:hover {
+    background-color: #218838;
+  }
+  .go-back {
+    margin-top: 15px;
+    color: #6c757d;
+  }
+  .go-back:hover {
+    text-decoration: underline;
+  }
+  

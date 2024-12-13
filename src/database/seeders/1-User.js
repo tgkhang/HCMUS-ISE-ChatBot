@@ -6,8 +6,8 @@ const bcrypt = require('bcrypt');
 module.exports = {
   async up (queryInterface, Sequelize) {
     const items = [{
-      "email": "gharvard0@51.la",
-      "password": "oE5&DX@\\W\"gOj.Q",
+      "email": "abc",
+      "password": "123",
       "firstName": "Gloriana",
       "lastName": "Harvard",
       "token": 31
@@ -19,7 +19,7 @@ module.exports = {
       "token": 23
     }, {
       "email": "dsilk2@wix.com",
-      "password": "xP7\"olujJ}",
+      "password": "xP7@olujJ}",
       "firstName": "Dawn",
       "lastName": "Silk",
       "token": 31

@@ -1,0 +1,338 @@
+body {
+    /* Main UI */
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+
+    /* Middle */
+    background: #343541;
+}
+
+.left-sidebar {
+    width: 284px; 
+    height: 1080px; 
+    left: 0px; 
+    top: 0px;  
+    background: #202123;
+}
+
+.new-chat {
+    width: 268px; 
+    height: 52px; 
+    left: 8px; 
+    top: 9px;
+    border-color: #444654;
+    background-color: #202123;
+    border-radius: 6px;
+    cursor: pointer;
+    border-width: 3px;
+    position: absolute;
+    transition: opacity 0.15s;
+}
+
+.new-chat:hover {
+    opacity: 0.8;
+}
+
+.new-chat:active {
+    opacity: 0.5;
+}
+
+.new-chat p {
+    width: 100px; 
+    height: 14px;
+    top: 0px;
+    padding-left: 3%;
+    color: white; 
+    font-size: 13.50px; 
+    font-family: Inter; 
+    font-weight: 500; 
+    word-wrap: break-word;
+}
+
+.new-chat img {
+    width: 14px;
+    height: 14px;
+    top: 15px;
+    left: 15px;
+    position: absolute;
+}
+
+
+.log-out {
+    width: 100px; 
+    height: 12px; 
+    left: 20px; 
+    bottom: 50px;
+    position: absolute;
+}
+
+.log-out img {
+    width: 12px; 
+    height: 12px;
+    position: absolute;
+    margin-top: 0;
+}
+
+
+.log-out p {
+    width: 50px; 
+    height: 12px;
+    margin-left: 20px;
+    margin-top: 0;
+    color: white; 
+    font-size: 14px; 
+    font-family: Inter; 
+    font-weight: 500; 
+    word-wrap: break-word;
+    position: absolute;
+}
+
+.chat-history {
+    width: 268px;
+    height: 46px; 
+    left: 8px; 
+    top: 67px; 
+    position: absolute
+}
+
+.history-frame {
+    width: 268px; 
+    height: 46px; 
+    left: 0px; 
+    top: 0px; 
+    position: absolute; 
+    background: #343540; 
+    border-radius: 6px
+}
+
+.history-frame p {
+    width: 165.85px; 
+    height: 14px; 
+    left: 37px;
+    top: 0px;
+    position: absolute; 
+    color: #ECECF1; 
+    font-size: 13.50px; 
+    font-family: Inter; 
+    font-weight: 500; 
+    word-wrap: break-word
+}
+
+.message-icon {
+    width: 14px;
+    height: 14px;
+    top: 15px;
+    left: 15px;
+    position: absolute;
+    color: #C5C5D1;
+}
+
+.pen-icon {
+    width: 14px;
+    height: 14px;
+    top: 15px;
+    right: 65px;
+    position: absolute;
+}
+
+.bin-icon {
+    width: 14px;
+    height: 14px;
+    top: 15px;
+    right: 40px;
+    position: absolute;
+}
+
+.share-icon {
+    width: 14px;
+    height: 14px;
+    top: 15px;
+    right: 15px;
+    position: absolute;
+}
+
+.user-query {
+    width: 995px; 
+    height: 33px; 
+    left: 488px; 
+    top: 28px; 
+    position: absolute; 
+}
+
+.user-query p {
+    width: 428px; 
+    height: 33px; 
+    color: white; 
+    font-size: 15px; 
+    font-family: Inter; 
+    font-weight: 500; 
+    line-height: 27px; 
+    word-wrap: break-word;
+    margin-left: 60px;
+    margin-top: 8px;
+    font-size: 20px;
+}
+
+.user-query img {
+    width: 35px;
+    height: 35px;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+.bot-answer {
+    width: 1636px;
+    height: 90px; 
+    left: 284px; 
+    top: 90px; 
+    position: 
+    absolute; 
+    background: #444654; 
+}
+
+.bot-info p {
+    width: 960px; 
+    height: 33px; 
+    color: white; 
+    font-size: 15px; 
+    font-family: Inter; 
+    font-weight: 500; 
+    line-height: 27px; 
+    word-wrap: break-word;
+    margin-top: 30px;
+    margin-left: 265px;
+    font-size: 20px;
+}
+
+.bot-info img {
+    width: 35px;
+    height: 35px;
+    left: 203px;
+    top: 25px;
+    position: absolute;
+}
+
+
+.like-icon {
+    width: 25px;
+    height: 25px;
+    left: 1500px;
+    top: 10px;
+    position: absolute;
+}
+
+
+.dislike-icon {
+    width: 25px;
+    height: 25px;
+    left: 1545px;
+    top: 10px;
+    position: absolute;
+}
+
+.regenerate-response {
+    width: 184px; 
+    height: 37px; 
+    left: 975px; 
+    top: 921px; 
+    position: absolute;
+    border-color: #C5C5D1;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 6px;
+    background-color: #343540;
+    transition: opacity 0.15s;
+}
+
+.regenerate-response:hover {
+    opacity: 0.8;
+}
+
+.regenerate-response:active {
+    opacity: 0.5;
+}
+
+.regenerate-response p {
+    width: 134px; 
+    height: 37px;
+    margin-top: 16px;
+    margin-left: 22px;
+    color: #C5C5D1; 
+    font-size: 13px; 
+    font-family: Inter; 
+    font-weight: 500; 
+    line-height: 0px; 
+    word-wrap: break-word;
+}
+
+
+.input-field {
+    width: 870px; 
+    height: 60px; 
+    left: 633px; 
+    top: 980px;
+    position: absolute;
+    border-radius: 6px;
+}
+
+.ask-bot {
+    width: 870px; 
+    height: 60px; 
+    left: 0px; 
+    top: 0px; 
+    background-color: #303139;
+    margin-left: 0px;
+    font-size: 25px;
+    color: white;
+    border-radius: 6px;
+}
+
+.send-icon {
+    width: 14px; 
+    height: 14px; 
+    left: 855px; 
+    top: 22px; 
+    position: absolute; 
+    transform: rotate(90deg); 
+    transform-origin: 0 0; 
+    background: #8E8E9E"
+}
+
+
+.model-selection {
+    width: 180px; 
+    height: 60px; 
+    left: 425px; 
+    top: 980px; 
+    position: absolute; 
+    background: #C5C5D1; 
+    border-radius: 6px;
+    transition: opacity 0.15s;
+}
+
+.model-selection:active {
+    opacity: 0.5;
+}
+.model-selection:hover {
+    opacity: 0.8;
+}
+
+.model-selection p {
+    top: 3px;
+    left: 50px;
+    position: absolute;  
+    font-size: 16px; 
+    font-family: Inter; 
+    font-weight: 500; 
+    word-wrap: break-word;
+}
+
+.model-selection img {
+    width: 30px;
+    height: 27px;
+    top: 14px;
+    left: 3px;
+    position: absolute;  
+}
