@@ -1,27 +1,304 @@
-.chat-messages {
-    overflow-y: auto;
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: #343541;
+    color: #ECECF1;
+}
+.container-fluid {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    height: 100vh;
+}
+
+.left-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 260px;
+    background: #202123;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* Nút New chat */
+.new-chat {
+    gap: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background: #2A2B32;
+    border: 1px solid #4D4D4F;
+    border-radius: 5px;
+    color: #ECECF1;
+    padding: 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background 0.2s;
+    text-align: center;
+    width: 100%;
+}
+.new-chat:hover {
+    background: #3E3F4B;
+}
+.new-chat p{
+    margin: 0;
+    font-size: 14px;
+    margin-right: 8px;
+}
+.new-chat img {
+    width: 14px;
+    height: 14px;
+}
+
+/* Log out section */
+.log-out {
+    display: flex;
+    align-items: center;
+    color: #ECECF1;
+    margin-top: auto;
+    cursor: pointer;
+    padding: 10px;
+    border-top: 1px solid #4D4D4F;
+    transition: background 0.2s;
+}
+.log-out:hover {
+    background: #3E3F4B;
+}
+.LogOutText {
+    margin: 0;
+    margin-left: 10px;
+    font-size: 14px;
+}
+.log-out img {
+    width: 16px;
+    height: 16px;
+}
+
+/* Chat History */
+.chat-history {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: #2A2B32;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    min-height: 60px;
+}
+.history-frame p {
+    margin: 0;
+    font-size: 14px;
+    color: #ECECF1;
+}
+.chat-history .message-icon,
+.chat-history .pen-icon,
+.chat-history .bin-icon,
+.chat-history .share-icon {
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    width: 16px;
+    height: 16px;
+}
+
+.chat-history img:hover {
+    opacity: 1;
+}
+
+.Right-Area {
+    margin-left: 260px; /* Dời sang phải vì sidebar cố định */
+    display: flex;
+    flex-direction: column;
+    background: #343541;
+    height: 100vh;
+    box-sizing: border-box;
+    overflow: auto;
+    position: relative;
+    width: 100%;
+}
+
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    background: #343541;
+    margin-bottom: 40px;
 }
 
-.message {
-    margin-bottom: 15px;
-    padding: 10px 15px;
-    border-radius: 10px;
-    max-width: 70%;
-}
-
-.user-message {
-    background-color: #007bff;
-    color: white;
+/* User Query */
+.user-query {
+    gap: 10px;
+    display: flex;
+    align-items: center; /* Canh giữa chữ theo chiều dọc */
+    background: #40414F;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 20px;
+    position: relative;
+    max-width: 60%;
     margin-left: auto;
+    margin-right: 0;
+}
+.user-query .query-text {
+    margin: 0;
+    font-size: 14px;
+    color: #ECECF1;
+    flex: 1;
+}
+.user-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
 }
 
-.ai-message {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
+/* Bot Answer */
+.bot-answer {
+    gap: 10px;
+    display: flex;
+    background: #40414F;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 20px;
+    max-width:60%;
+    margin-left: 0;
+    margin-right: auto;
+}
+.bot-info {
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.answer-text {
+    font-size: 14px;
+    color: #ECECF1;
+}
+.bot-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
 }
 
-.error-message {
-    background-color: #dc3545;
+/* Like & Dislike icons */
+.like-icon,
+.dislike-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+.like-icon:hover,
+.dislike-icon:hover {
+    opacity: 1;
+}
+
+/* Vùng user-interact bao gồm regenerate-response, input-field, model-selection */
+.user-interact {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
+}
+
+.regenerate-response {
+    width: 20%;
+    border-color: #C5C5D1;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 6px;
+    background-color: #343540;
+    transition: opacity 0.15s;
+    margin-bottom: 10px;
+}
+.regenerate-response:hover {
+    opacity: 0.8;
+}
+
+.regenerate-response:active {
+    opacity: 0.5;
+}
+
+.user-input {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.regenerate-response p {
+    margin-top: 16px;
+    margin-left: 22px;
+    color: #C5C5D1; 
+    font-size: 13px; 
+    font-family: Inter; 
+    font-weight: 500; 
+    line-height: 0px; 
+    word-wrap: break-word;
+}
+
+.input-field {
+    width: 100%;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+}
+
+.ask-bot {
+    height: 30px;
+    width: 90%;
+    background-color: #303139;
+    margin-left: 0px;
+    font-size: 15px;
     color: white;
+    border-radius: 6px;
 }
+
+.btn.btn-primary {
+    background: transparent; /* Nền trong suốt */
+    border: none; /* Loại bỏ viền */
+    padding: 0; 
+    display: flex;
+    align-items: center; /* Canh giữa theo chiều dọc */
+    justify-content: center; /* Canh giữa theo chiều ngang */
+    cursor: pointer; /* Thêm con trỏ trỏ khi hover */
+}
+
+.btn.btn-primary .send-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+
+
+/* .model-selection {
+    width: 70px;
+    height: 70px;
+    background: #C5C5D1; 
+    border-radius: 6px;
+    transition: opacity 0.15s;
+}
+
+.model-selection:active {
+    opacity: 0.5;
+}
+.model-selection:hover {
+    opacity: 0.8;
+}
+
+.model-selection p {
+    font-size: 16px; 
+    font-family: Inter; 
+    font-weight: 500; 
+    word-wrap: break-word;
+} */

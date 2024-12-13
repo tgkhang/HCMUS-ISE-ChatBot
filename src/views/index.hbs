@@ -1,6 +1,88 @@
-<div class="container-fluid">
+{{!-- <div class="container-fluid">
     {{> boxChat}}
+</div> --}}
+
+<div class="container-fluid">
+    <div class="left-sidebar">
+        <button class="new-chat">
+            <img src="/images/plus.png" alt="plus icon">
+            <p>New chat</p>
+        </button>
+
+        <div class="chat-history">
+            <img src="/images/message.png" alt="message icon" class="message-icon">
+            <div class="history-frame">
+                <p>Chatbot definition...</p>
+            </div>
+            <img src="/images/pen.png" alt="pen icon" class="pen-icon">
+            <img src="/images/bin.png" alt="bin icon" class="bin-icon">
+            <img src="/images/share.png" alt="share icon" class="share-icon">
+        </div>
+
+        <div class="log-out">
+            <img src="/images/logout.png" alt="log out icon">
+            <p class="LogOutText">Log out</p>
+        </div>
+    </div>
+
+    <div class="Right-Area">
+        <div class="chat-area">
+            {{!-- <div class="user-query">
+                <img src="/images/usericon.png" alt="user icon" class="user-icon">
+                <p class="query-text">User's query</p>
+            </div>
+
+            <div class="bot-answer">
+                <div class="bot-info">
+                    <img src="/images/gpticon.png" alt="gpt icon" class="bot-icon">
+                    <p class="answer-text">Bot's answer</p>
+                </div>
+
+                <div class="rating">
+                    <img src="/images/like.png" alt="like icon" class="like-icon">
+                    <img src="/images/dislike.png" alt="dislike icon" class="dislike-icon">
+                </div>
+            </div> --}}
+        </div>
+
+        <div class="user-interact">
+            <button class="regenerate-response">
+                <p>Regenerate response</p>
+                <div class="Refresh" style="width: 11px; height: 9px; left: 14px; top: 14px; position: absolute">
+                    <div class="Vector"
+                        style="width: 3px; height: 3px; left: 0px; top: 0.50px; position: absolute; border: 0.75px #C5C5D1 solid">
+                    </div>
+                    <div class="Vector"
+                        style="width: 3px; height: 3px; left: 8px; top: 5.50px; position: absolute; border: 0.75px #C5C5D1 solid">
+                    </div>
+                    <div class="Vector"
+                        style="width: 11px; height: 9px; left: 0px; top: 0px; position: absolute; border: 0.75px #C5C5D1 solid">
+                    </div>
+                </div>
+            </button>
+
+            <div class="user-input">
+                {{!-- <button class="model-selection">
+                    <p><strong>Change AI Model</strong></p>
+                    <img src="/images/change.png" alt="change icon" class="change-icon">
+                </button> --}}
+                {{!-- <form class="input-field">
+                    <input id="userInput" class="ask-bot" , type="text" , placeholder="Ask the bot">
+                    <img id="chatForm" src="/images/send.png" alt="send icon" class="send-icon">
+                </form> --}}
+
+                <form id="chatForm" class="d-flex input-field" >
+                    <input type="text" class="form-control me-2 ask-bot" id="userInput"
+                        placeholder="Ask the bot">
+                    <button type="submit" class="btn btn-primary">
+                        <img src="/images/send.png" class="send-icon">
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <!-- Đảm bảo bạn đã thêm marked.js từ CDN -->
 <script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/lib/marked.min.js"></script>
@@ -12,13 +94,11 @@
         console.log("CHECK USER INPUT: ", userInput);
 
         // Add user message
-        const chatMessages = document.getElementById('chatMessages');
-        chatMessages.innerHTML += `
-        <div class="message user-message">
-            <p>${userInput}</p>
-        </div>
-    `;
-
+        const chatMessages = document.querySelector('.chat-area');
+        chatMessages.innerHTML += `<div class="user-query">
+                                        <img src="/images/usericon.png" alt="user icon" class="user-icon">
+                                        <p class="query-text">${userInput}</p>
+                                    </div>`;
         try {
             const response = await fetch('/api/gemini', {
                 method: 'POST',
@@ -32,11 +112,17 @@
             const formattedResponse = marked.parse(data.response);
 
             // Add AI response with formatted content
-            chatMessages.innerHTML += `
-            <div class="message ai-message">
-                <div>${formattedResponse}</div>
-            </div>
-        `;
+            chatMessages.innerHTML += `<div class="bot-answer">
+                                            <div class="bot-info">
+                                                <img src="/images/gpticon.png" alt="gpt icon" class="bot-icon">
+                                                <p class="answer-text">${formattedResponse}</p>
+                                            </div>
+
+                                            <div class="rating">
+                                                <img src="/images/like.png" alt="like icon" class="like-icon">
+                                                <img src="/images/dislike.png" alt="dislike icon" class="dislike-icon">
+                                            </div>
+                                        </div>`;
         } catch (error) {
             console.error('Error:', error);
             chatMessages.innerHTML += `
@@ -50,15 +136,13 @@
     document.getElementById('chatForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const userInput = document.getElementById('userInput').value;
-        const chatMessages = document.getElementById('chatMessages');
 
         // Add user message
-        const chatMessages = document.getElementById('chatMessages');
-        chatMessages.innerHTML += `
-        <div class="message user-message">
-            <p>${userInput}</p>
-        </div>
-        `;
+        const chatMessages = document.querySelector('.chat-area');
+        chatMessages.innerHTML += `<div class="user-query">
+                                        <img src="/images/usericon.png" alt="user icon" class="user-icon">
+                                        <p class="query-text">${userInput}</p>
+                                    </div>`;
 
         try {
             const response = await fetch('/api/gemini', {
@@ -73,18 +157,31 @@
             const formattedResponse = marked.parse(data.response);
 
             // Add AI response with formatted content
-            chatMessages.innerHTML += `
-            <div class="message ai-message">
-                <div>${formattedResponse}</div>
-            </div>
-            `;
+            chatMessages.innerHTML += `<div class="bot-answer">
+                                            <div class="bot-info">
+                                                <img src="/images/gpticon.png" alt="gpt icon" class="bot-icon">
+                                                <p class="answer-text">${formattedResponse}</p>
+                                            </div>
+
+                                            <div class="rating">
+                                                <img src="/images/like.png" alt="like icon" class="like-icon">
+                                                <img src="/images/dislike.png" alt="dislike icon" class="dislike-icon">
+                                            </div>
+                                        </div>`;
         } catch (error) {
             console.error('Error:', error);
-            chatMessages.innerHTML += `
-            <div class="message error-message">
-                <p>Sorry, something went wrong. Please try again.</p>
-            </div>
-        `;
+            // Add AI response with formatted content
+            chatMessages.innerHTML += `<div class="bot-answer">
+                                            <div class="bot-info">
+                                                <img src="/images/gpticon.png" alt="gpt icon" class="bot-icon">
+                                                <p class="answer-text">Something Wrong when chat !</p>
+                                            </div>
+
+                                            <div class="rating">
+                                                <img src="/images/like.png" alt="like icon" class="like-icon">
+                                                <img src="/images/dislike.png" alt="dislike icon" class="dislike-icon">
+                                            </div>
+                                        </div>`;
         }
 
         // Clear input
