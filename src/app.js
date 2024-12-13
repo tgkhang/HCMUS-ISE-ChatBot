@@ -36,6 +36,7 @@ app.engine(
                     day: "numeric",
                 });
             },
+            eq: (a, b) => a === b,
         },
     })
 );
@@ -45,10 +46,22 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 
+const loginRoute = require('./routes/login');
+//tất cả những route liên quan đến /, đứng sau / -> sử dụng webRoute
 app.get('/', (req, res) => {
-    res.render('index');
+    res.redirect('/login');
 })
+app.use('/login', loginRoute);
 
+const homeRoute = require('./routes/home');
+app.use('/home', homeRoute);
+
+const chatRoute = require('./routes/chat');
+app.use('/chat', chatRoute);
+
+// kết nối AI engine:
+const geminiRoute = require('./routes/api_gemini');
+app.use('/api/gemini', geminiRoute);
 
 //start server
 app.listen(port, () => {

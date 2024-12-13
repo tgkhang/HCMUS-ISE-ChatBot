@@ -1,0 +1,85 @@
+body {
+    background-color: #fae1c7; /* Màu nền màn hình */
+    font-family: Arial, sans-serif;
+}
+.header {
+    text-align: center;
+    margin-top: 20px;
+    color: #34495e; /* Màu chữ tiêu đề */
+}
+.header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+.header p {
+    color: #7f8c8d; /* Màu chữ phụ */
+}
+.card {
+    background: #fbc192; /* Màu nền card bình thường */
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+}
+.card:hover {
+    cursor: pointer; /* Đổi kiểu con chuột thành con trỏ */
+    transform: scale(1.05); /* Phóng to nhẹ */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Đổ bóng khi hover */
+    background-color: #deb4d7; /* Màu nền khi hover */
+}
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2c3e50; /* Màu chữ tiêu đề trong card */
+}
+.card-text {
+    color: #7f8c8d; /* Màu chữ phụ trong card */
+}
+.input-section {
+    margin-top: 20px;
+    background: #fae1c78b;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.input-group input {
+    border-radius: 10px;
+    border: 1px solid #dfe6e9;
+    padding: 10px;
+}
+.input-group input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: #007bff;
+}
+.input-group .btn:hover {
+    background-color: #0056b3; /* Màu khi hover */
+}
+
+.prompt {
+    display: flex; /* Căn hàng ngang giữa icon và tiêu đề */
+    align-items: center; /* Căn giữa icon và tiêu đề theo chiều dọc */
+    justify-content: center; /* Đảm bảo icon và tiêu đề bắt đầu từ trái */
+    gap: 5px; /* Tạo khoảng cách giữa icon và tiêu đề */
+}
+
+.prompt svg {
+    color: #007bff; /* Đổi màu icon sang xanh nước biển */
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 0; /* Loại bỏ margin mặc định để căn chỉnh chính xác */
+}
+
+.sidebar {
+    width: 200px; /* Chiều rộng cố định */
+    min-width: 150px; /* Chiều rộng tối thiểu */
+    max-width: 250px; /* Chiều rộng tối đa */
+    background-color: #6f6485;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

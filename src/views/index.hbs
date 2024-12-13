@@ -1,0 +1,96 @@
+<div class="container-fluid">
+    {{> boxChat}}
+</div>
+
+<!-- Đảm bảo bạn đã thêm marked.js từ CDN -->
+<script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/lib/marked.min.js"></script>
+
+<!-- Add this before closing body tag -->
+<script>
+    window.onload = async function () {
+        const userInput = "{{user_input}}";
+        console.log("CHECK USER INPUT: ", userInput);
+
+        // Add user message
+        const chatMessages = document.getElementById('chatMessages');
+        chatMessages.innerHTML += `
+        <div class="message user-message">
+            <p>${userInput}</p>
+        </div>
+    `;
+
+        try {
+            const response = await fetch('/api/gemini', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: userInput })
+            });
+
+            const data = await response.json();
+
+            // Use the correct function from marked (for version 4+)
+            const formattedResponse = marked.parse(data.response);
+
+            // Add AI response with formatted content
+            chatMessages.innerHTML += `
+            <div class="message ai-message">
+                <div>${formattedResponse}</div>
+            </div>
+        `;
+        } catch (error) {
+            console.error('Error:', error);
+            chatMessages.innerHTML += `
+            <div class="message error-message">
+                <p>Sorry, something went wrong. Please try again.</p>
+            </div>
+        `;
+        }
+    };
+
+    document.getElementById('chatForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const userInput = document.getElementById('userInput').value;
+        const chatMessages = document.getElementById('chatMessages');
+
+        // Add user message
+        const chatMessages = document.getElementById('chatMessages');
+        chatMessages.innerHTML += `
+        <div class="message user-message">
+            <p>${userInput}</p>
+        </div>
+        `;
+
+        try {
+            const response = await fetch('/api/gemini', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: userInput })
+            });
+
+            const data = await response.json();
+
+            // Use the correct function from marked (for version 4+)
+            const formattedResponse = marked.parse(data.response);
+
+            // Add AI response with formatted content
+            chatMessages.innerHTML += `
+            <div class="message ai-message">
+                <div>${formattedResponse}</div>
+            </div>
+            `;
+        } catch (error) {
+            console.error('Error:', error);
+            chatMessages.innerHTML += `
+            <div class="message error-message">
+                <p>Sorry, something went wrong. Please try again.</p>
+            </div>
+        `;
+        }
+
+        // Clear input
+        document.getElementById('userInput').value = '';
+
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+</script>
