@@ -185,4 +185,54 @@ controller.resetPassword= async (req, res) => {
       }
 }
 
+controller.tokenRegister = (req, res) => {
+    const email = req.query.email;
+    const token = req.query.token;
+
+    const { verify } = require('./jwt');
+
+    console.log("Received token:", token);
+    console.log("Received email:", email);
+
+    if (!token) {
+        console.error("Token is missing.");
+        return res.render('signup', { expired: true, email, token });
+    }
+
+    const isTokenValid = verify(token);
+    if (!isTokenValid) {
+        console.error("Token is invalid or expired.");
+        return res.render('signup', { expired: true, email, token });
+    }
+
+    console.log("Token is valid. Rendering reset password page.");
+    return res.render('signup', { expired: false, email, token });
+}
+
+controller.showRegisterEmail= (req, res) => {
+    
+    res.render('signupEmail');
+}
+controller.registerEmail= (req, res) => {
+    // Tao link
+    let email = req.body.email;
+  
+    const {sign} = require('./jwt');
+    const host = req.header('host');
+    const resetLink = `${req.protocol}://${host}/register?token=${sign(email)}&email=${email}`;
+    console.log("resetlink"+resetLink);
+    // Gui mail
+    const {sendRegisterMail} = require('./mail');
+    sendRegisterMail(email, host, resetLink)
+        .then((result) => {
+            console.log('email has been sent');
+            return res.render('signupEmail', { done: true });
+        })
+        .catch(error =>{
+            console.log(error.statusCode);
+            return res.render('signupEmail', { message: 'Error occur , Failed to send email!, check your mail address' });
+        })
+}
+
+
 module.exports= controller;

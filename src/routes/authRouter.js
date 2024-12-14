@@ -2,7 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
-
+const models = require("../database/models");
 const controller = require("../controllers/authController");
 const { body, getErrorMessage } = require("../controllers/validator");
 
@@ -28,8 +28,29 @@ router.post("/login",
 );
 
 router.post('/logout', controller.logout);
+router.get('/registerEmail',controller.showRegisterEmail);
+router.post('/registerEmail', 
+  body('email').trim().notEmpty().withMessage('Email is required!').isEmail().withMessage('Invalid Email address!')
+  .custom(async (email) => {
+    const user = await models.User.findOne({ where: { email } });
+    if (user) {
+      throw new Error('Email already exists!');
+    }
+    return true;
+  }),
+  (req,res,next)=>{
+    console.log(req.body);
+    let message = getErrorMessage(req);
+    if (message) {
+      console.log(message)
+      return res.render("signupEmail", { registerMessage: message });
+    }
+    next();
+  },
+  controller.registerEmail
+);
 
-router.get('/register',controller.signup);
+router.get('/register',controller.tokenRegister);
 
 router.post('/register', 
   body('firstName').trim().notEmpty().withMessage('First name is required!'),
@@ -45,10 +66,11 @@ router.post('/register',
   }),
   (req,res,next)=>{
     console.log(req.body);
+    let email = req.body.email || '';
     let message = getErrorMessage(req);
     if (message) {
       console.log(message)
-      return res.render("signup", { registerMessage: message });
+      return res.render("signup", { registerMessage: message,  email: email  });
     }
     next();
   },
