@@ -18,5 +18,4 @@ router.use('/chat', chatRoute);
 const geminiRoute = require('../routes/api_gemini');
 router.use('/api/gemini', geminiRoute);
 
-
 module.exports = router;

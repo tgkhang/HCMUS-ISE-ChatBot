@@ -90,6 +90,20 @@ html, body {
     padding: 10px;
     margin-bottom: 20px;
     min-height: 60px;
+    cursor: pointer;
+    padding: 10px;
+    margin: 5px 0;
+    transition: background-color 0.3s;
+}
+.chat-history:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.chat-history.selected {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+.chat-history .history-frame {
+    flex-grow: 1;
+    margin: 0 10px;
 }
 .history-frame p {
     margin: 0;
@@ -302,3 +316,12 @@ html, body {
     font-weight: 500; 
     word-wrap: break-word;
 } */
+
+.bin-icon {
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.bin-icon:hover {
+    opacity: 0.7;
+}

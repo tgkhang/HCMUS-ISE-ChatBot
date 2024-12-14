@@ -31,6 +31,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: true, 
     },
+    messages: {
+      type: DataTypes.JSONB,
+      allowNull: true,
+    }
   }, {
     sequelize,
     modelName: 'Chat',

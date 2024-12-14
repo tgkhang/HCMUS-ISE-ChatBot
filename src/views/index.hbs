@@ -9,14 +9,8 @@
             <p>New chat</p>
         </button>
 
-        <div class="chat-history">
-            <img src="/images/message.png" alt="message icon" class="message-icon">
-            <div class="history-frame">
-                <p>Chatbot definition...</p>
-            </div>
-            <img src="/images/pen.png" alt="pen icon" class="pen-icon">
-            <img src="/images/bin.png" alt="bin icon" class="bin-icon">
-            <img src="/images/share.png" alt="share icon" class="share-icon">
+        <div id="chat-history-container">
+            <!-- Chat histories will be loaded here -->
         </div>
 
         <div class="log-out">
@@ -46,6 +40,10 @@
         </div>
 
         <div class="user-interact">
+            <button id="saveChat" class="save-chat-btn">
+                <img src="/images/save.png" alt="save icon">
+                <p>Save Chat</p>
+            </button>
             <button class="regenerate-response">
                 <p>Regenerate response</p>
                 <div class="Refresh" style="width: 11px; height: 9px; left: 14px; top: 14px; position: absolute">
@@ -89,9 +87,19 @@
 
 <!-- Add this before closing body tag -->
 <script>
+
+    let currentMessages = [];
+
+
     window.onload = async function () {
         const userInput = "{{user_input}}";
         console.log("CHECK USER INPUT: ", userInput);
+
+        // Lưu message vào mảng
+        currentMessages.push({
+            role: 'user',
+            content: userInput
+        });
 
         // Add user message
         const chatMessages = document.querySelector('.chat-area');
@@ -110,6 +118,12 @@
 
             // Use the correct function from marked (for version 4+)
             const formattedResponse = marked.parse(data.response);
+
+            // Lưu response từ bot
+            currentMessages.push({
+                role: 'assistant',
+                content: formattedResponse
+            });
 
             // Add AI response with formatted content
             chatMessages.innerHTML += `<div class="bot-answer">
@@ -137,6 +151,12 @@
         e.preventDefault();
         const userInput = document.getElementById('userInput').value;
 
+        // Lưu message vào mảng
+        currentMessages.push({
+            role: 'user',
+            content: userInput
+        });
+
         // Add user message
         const chatMessages = document.querySelector('.chat-area');
         chatMessages.innerHTML += `<div class="user-query">
@@ -155,6 +175,12 @@
 
             // Use the correct function from marked (for version 4+)
             const formattedResponse = marked.parse(data.response);
+
+            // Lưu response từ bot
+            currentMessages.push({
+                role: 'assistant',
+                content: formattedResponse
+            });
 
             // Add AI response with formatted content
             chatMessages.innerHTML += `<div class="bot-answer">
@@ -189,5 +215,161 @@
 
         // Scroll to bottom
         chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+
+
+    // Xử lý nút Save Chat
+    document.getElementById('saveChat').addEventListener('click', async () => {
+        try {
+            const response = await fetch('/chat/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chatName: `Chat ${new Date().toLocaleString()}`,
+                    messages: currentMessages
+                })
+            });
+            
+            if (response.ok) {
+                loadChatHistory();
+                alert('Chat saved successfully!');
+            }
+        } catch (error) {
+            console.error('Error saving chat:', error);
+        }
+    });
+
+    // Load chat history
+    async function loadChatHistory() {
+        try {
+            const response = await fetch('/chat/history');
+            const chats = await response.json();
+            
+            const container = document.getElementById('chat-history-container');
+            container.innerHTML = chats.map(chat => `
+                <div class="chat-history" data-chat-id="${chat.id}">
+                    <img src="/images/message.png" alt="message icon" class="message-icon">
+                    <div class="history-frame">
+                        <p>${chat.chatName}</p>
+                    </div>
+                    <img src="/images/pen.png" alt="pen icon" class="pen-icon">
+                    <img src="/images/bin.png" alt="bin icon" class="bin-icon" data-chat-id="${chat.id}">
+                    <img src="/images/share.png" alt="share icon" class="share-icon">
+                </div>
+            `).join('');
+            
+            // Add click event listeners to chat histories
+            document.querySelectorAll('.chat-history').forEach(chatElement => {
+                chatElement.addEventListener('click', (e) => {
+                    if (!e.target.matches('.pen-icon, .bin-icon, .share-icon')) {
+                        const chatId = chatElement.dataset.chatId;
+                        loadChatDetail(chatId);
+                        
+                        document.querySelectorAll('.chat-history').forEach(el => {
+                            el.classList.remove('selected');
+                        });
+                        chatElement.classList.add('selected');
+                    }
+                });
+            });
+
+            // Add click event listeners to delete buttons
+            document.querySelectorAll('.bin-icon').forEach(deleteBtn => {
+                deleteBtn.addEventListener('click', async (e) => {
+                    e.stopPropagation(); // Ngăn không cho sự kiện click lan ra chat-history
+                    
+                    const chatId = e.target.dataset.chatId;
+                    if (confirm('Are you sure you want to delete this chat?')) {
+                        try {
+                            const response = await fetch(`/chat/${chatId}`, {
+                                method: 'DELETE'
+                            });
+
+                            if (response.ok) {
+                                // Nếu chat đang được hiển thị, clear màn hình chat
+                                const selectedChat = document.querySelector('.chat-history.selected');
+                                if (selectedChat && selectedChat.dataset.chatId === chatId) {
+                                    document.querySelector('.chat-area').innerHTML = '';
+                                    currentMessages = [];
+                                }
+                                
+                                // Reload chat history
+                                loadChatHistory();
+                            } else {
+                                alert('Failed to delete chat');
+                            }
+                        } catch (error) {
+                            console.error('Error deleting chat:', error);
+                            alert('Error deleting chat');
+                        }
+                    }
+                });
+            });
+        } catch (error) {
+            console.error('Error loading chat history:', error);
+        }
+    }
+
+    // Load chat history when page loads
+    window.addEventListener('load', loadChatHistory);
+
+    // Thêm hàm để load một chat cụ thể
+    async function loadChatDetail(chatId) {
+        try {
+            const response = await fetch(`/chat/${chatId}`);
+            const chat = await response.json();
+            
+            // Clear current chat area
+            const chatMessages = document.querySelector('.chat-area');
+            chatMessages.innerHTML = '';
+            
+            // Reset currentMessages array
+            currentMessages = [];
+            
+            // Display each message
+            chat.messages.forEach(message => {
+                currentMessages.push(message);
+                
+                if (message.role === 'user') {
+                    chatMessages.innerHTML += `
+                        <div class="user-query">
+                            <img src="/images/usericon.png" alt="user icon" class="user-icon">
+                            <p class="query-text">${message.content}</p>
+                        </div>`;
+                } else {
+                    chatMessages.innerHTML += `
+                        <div class="bot-answer">
+                            <div class="bot-info">
+                                <img src="/images/gpticon.png" alt="gpt icon" class="bot-icon">
+                                <p class="answer-text">${message.content}</p>
+                            </div>
+                            <div class="rating">
+                                <img src="/images/like.png" alt="like icon" class="like-icon">
+                                <img src="/images/dislike.png" alt="dislike icon" class="dislike-icon">
+                            </div>
+                        </div>`;
+                }
+            });
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+        } catch (error) {
+            console.error('Error loading chat detail:', error);
+        }
+    }
+
+    // Add event listener for New Chat button
+    document.querySelector('.new-chat').addEventListener('click', () => {
+        // Clear chat area
+        document.querySelector('.chat-area').innerHTML = '';
+        
+        // Reset currentMessages array
+        currentMessages = [];
+        
+        // Remove selected state from all chat histories
+        document.querySelectorAll('.chat-history').forEach(el => {
+            el.classList.remove('selected');
+        });
     });
 </script>
