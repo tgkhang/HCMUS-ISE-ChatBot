@@ -1,129 +1,145 @@
+<main
+  class="d-flex align-items-center justify-content-center"
+  style="min-height: 100vh; background: linear-gradient(to bottom, #888 50%, #000 50%);"
+>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-6 col-lg-4">
+        <!-- Card -->
+        <div
+          class="card shadow-lg border-0 rounded-4"
+          style="background-color: #1b1b1b; color: #fff;"
+        >
+          <div class="card-body p-5">
+            <!-- Title -->
+            <h1
+              class="text-center fw-bold mb-4"
+              style="color: #6c63ff; font-size: 2rem;"
+            >
+              Sign Up
+            </h1>
 
-<main class="d-flex flex-column align-items-center pt-5 mt-5">
-    <p class="fs-1 mt-5">Sign Up</p>
-    <i class="bi bi-threads display-3 mt-3 mb-4"></i>
-    
-    {{#if done}}
-    <p class="fs-4 text-center text-muted mt-3 mb-4">Register Success. You can now <a href="/login">log in</a>.</p>
-    <div class="mb-4">
-        <i class="bi bi-check-circle-fill display-4 text-success"></i>
-    </div>
-
-    {{else if expired}}
-    <p class="fs-4 text-center text-warning mt-3 mb-4">Your reset link has expired. Please request a new one.</p>
-    <div class="mb-4">
-        <i class="bi bi-exclamation-triangle-fill display-4 text-warning"></i>
-    </div>
-    <a href="/" class="btn btn-primary btn-lg px-4 py-2 mt-3">Request New Link</a>
-
-    {{else}}
-
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-10 col-md-8 col-lg-6">
-                <form action="/register" method="post" id="formRegister">
-                    <!-- Email -->
-                    <div class="form-floating mb-3">
-                        <input
-                            type="email"
-                            class="form-control"
-                            id="email"
-                            name="email"
-                            placeholder="Enter your email address"
-                            value="{{email}}"
-                            readonly
-                        />
-                        <label for="email">Email</label>
-                    </div>
-                    <!-- First Name -->
-                    <div class="form-floating mb-3">
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="firstName"
-                            name="firstName"
-                            placeholder="First Name"
-                            required
-                        />
-                        <label for="firstName">First Name</label>
-                    </div>
-
-                    <!-- Last Name -->
-                    <div class="form-floating mb-3">
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="lastName"
-                            name="lastName"
-                            placeholder="Last Name"
-                            required
-                        />
-                        <label for="lastName">Last Name</label>
-                    </div>
-
-                    <!-- Password -->
-                    <div class="form-floating mb-3">
-                        <input
-                            type="password"
-                            class="form-control"
-                            id="password"
-                            name="password"
-                            placeholder="Enter your password"
-                            onchange="checkPasswordConfirm('formRegister')"
-                            required
-                        />
-                        <label for="password">Password</label>
-                    </div>
-
-                    <!-- Confirm Password -->
-                    <div class="form-floating mb-3">
-                        <input
-                            type="password"
-                            class="form-control"
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            placeholder="Confirm your password"
-                            onkeyup="checkPasswordConfirm('formRegister')"
-                            required
-                        />
-                        <label for="confirmPassword">Confirm Password</label>
-                    </div>
-
-                    <!-- Terms and Conditions Checkbox -->
-                    <div class="mb-3 form-check">
-                        <input
-                            type="checkbox"
-                            class="form-check-input"
-                            id="terms"
-                            required
-                        />
-                        <label class="form-check-label" for="terms">
-                            I agree to the <a href="/terms" target="_blank">Terms and Conditions</a>
-                        </label>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Sign Up</button>
-                    </div>
-                    <!-- Register Message -->
-                    {{#if registerMessage}}
-                    <div
-                        class="alert alert-warning mt-3 w-100 text-break"
-                        style="max-height: 150px; overflow-y: auto;"
-                    >
-                        {{{registerMessage}}}
-                    </div>
-                    {{/if}}
-                    <input type="hidden" name="reqUrl" value="{{reqUrl}}">
-                </form>
-
-                <!-- Login Link -->
-                <div class="mt-4 text-center">
-                    <p>Already have an account? <a href="/login">Login here</a></p>
-                </div>
+            {{#if done}}
+            <div class="text-center">
+              <p class="fs-5 text-muted">Register Success. You can now <a href="/login" style="color: #6c63ff;">log in</a>.</p>
+              <i class="bi bi-check-circle-fill display-4 text-success"></i>
             </div>
+            {{else if expired}}
+            <div class="text-center">
+              <p class="fs-5 text-warning">Your reset link has expired. Please request a new one.</p>
+              <i class="bi bi-exclamation-triangle-fill display-4 text-warning"></i>
+              <a href="/" class="btn btn-lg mt-3" style="background-color: #6c63ff; border-color: #6c63ff; color: #fff;">
+                Request New Link
+              </a>
+            </div>
+            {{else}}
+
+            <!-- Form -->
+            <form action="/register" method="post" id="formRegister">
+              <!-- Email Field -->
+              <div class="mb-4">
+                <label for="email" class="form-label fs-6">Email</label>
+                <input
+                  type="email"
+                  class="form-control bg-dark text-light border-secondary"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email address"
+                  value="{{email}}"
+                  readonly
+                />
+              </div>
+              <!-- First Name -->
+              <div class="mb-4">
+                <label for="firstName" class="form-label fs-6">First Name</label>
+                <input
+                  type="text"
+                  class="form-control bg-dark text-light border-secondary"
+                  id="firstName"
+                  name="firstName"
+                  placeholder="First Name"
+                  required
+                />
+              </div>
+              <!-- Last Name -->
+              <div class="mb-4">
+                <label for="lastName" class="form-label fs-6">Last Name</label>
+                <input
+                  type="text"
+                  class="form-control bg-dark text-light border-secondary"
+                  id="lastName"
+                  name="lastName"
+                  placeholder="Last Name"
+                  required
+                />
+              </div>
+              <!-- Password -->
+              <div class="mb-4">
+                <label for="password" class="form-label fs-6">Password</label>
+                <input
+                  type="password"
+                  class="form-control bg-dark text-light border-secondary"
+                  id="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  onchange="checkPasswordConfirm('formRegister')"
+                  required
+                />
+              </div>
+              <!-- Confirm Password -->
+              <div class="mb-4">
+                <label for="confirmPassword" class="form-label fs-6">Confirm Password</label>
+                <input
+                  type="password"
+                  class="form-control bg-dark text-light border-secondary"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="Confirm your password"
+                  onkeyup="checkPasswordConfirm('formRegister')"
+                  required
+                />
+              </div>
+              <!-- Terms Checkbox -->
+              <div class="form-check mb-4">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="terms"
+                  required
+                />
+                <label class="form-check-label fs-6" for="terms">
+                  I agree to the <a href="/terms" target="_blank" style="color: #6c63ff;">Terms and Conditions</a>
+                </label>
+              </div>
+              <!-- Submit Button -->
+              <div class="d-grid">
+                <button
+                  type="submit"
+                  class="btn btn-lg"
+                  style="background-color: #6c63ff; border-color: #6c63ff; color: #fff;"
+                >
+                  Sign Up
+                </button>
+              </div>
+              <!-- Register Message -->
+              {{#if registerMessage}}
+              <div
+                class="alert alert-warning mt-3 w-100 text-break"
+                style="max-height: 150px; overflow-y: auto;"
+              >
+                {{{registerMessage}}}
+              </div>
+              {{/if}}
+              <input type="hidden" name="reqUrl" value="{{reqUrl}}" />
+            </form>
+            <!-- Login Link -->
+            <div class="mt-4 text-center">
+              <p>Already have an account? <a href="/login" style="color: #6c63ff;">Login here</a></p>
+            </div>
+            {{/if}}
+          </div>
         </div>
+      </div>
     </div>
-    {{/if}}
+  </div>
 </main>

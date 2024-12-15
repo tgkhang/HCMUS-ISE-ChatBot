@@ -1,60 +1,72 @@
-
-<main class="d-flex align-items-center justify-content-center" style="min-height: 100vh; padding-top: 56px;">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card shadow-lg border-0 rounded-4">
-                    <div class="card-body p-4">
-                        <h3 class="card-title text-center mb-4 font-weight-bold">Sign in</h3>
-                        <form action="/login" method="POST">
-                            <div class="mb-3">
-                                <label for="username" class="form-label fs-6">Email</label>
-                                <input type="text" class="form-control" id="username" name="username" placeholder="Email" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label fs-6">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                            </div>
-                            <div class="col-md-12">
-                            <div class="custom-control custom-checkbox">
-                                <input
-                                    type="checkbox"
-                                    class="custom-control-input"
-                                    id="newaccount" name="keepSignedIn"
-                                />
-                                <label class="custom-control-label" for="newaccount">Keep me
-                                    signed in</label>
-                                </div>
-                            </div>
-                            <div class="d-grid mb-3 pt-3">
-                                <button type="submit" class="btn btn-primary btn-lg">Login</button>
-                            </div>  
-                            {{#if loginMessage}}
-                                <div class="col md-12">
-                                    <div class="alert alert-warning mt-3 w-100" style="max-height: 150px; overflow-y: auto;">
-                                        {{{loginMessage}}}
-                                    </div>
-                                </div>
-                            {{/if }}
-                            {{#if registerMessage}}
-                                <div class="col md-12">
-                                    <div class="alert alert-warning mt-3 w-100" style="max-height: 150px; overflow-y: auto;">
-                                        {{{registerMessage}}}
-                                    </div>
-                                </div>
-                            {{/if }}
-                            <input type="hidden" name="reqUrl" value="{{reqUrl}}">
-                        </form>
-                        
-                    </div>
-                </div>
-                <div class="d-grid mt-3">
-                    <a href="/registerEmail" class="btn btn-outline-secondary btn-lg">Sign Up</a>
-                </div>
-                <div class="text-center mt-3">
-                    <a href="/forgot" class="btn btn-link text-decoration-none mt-2">Forgot password?</a>
-                </div>
-            </div>
+<main
+  class="d-flex align-items-center justify-content-center"
+  style="min-height: 100vh; background: linear-gradient(to bottom, #888 50%, #000 50%);"
+>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-6 col-lg-4">
+        <!-- Card -->
+        <div
+          class="card shadow-lg border-0 rounded-4"
+          style="background-color: #1b1b1b; color: #fff;"
+        >
+          <div class="card-body p-5">
+            <!-- Title -->
+            <h1
+              class="text-center fw-bold mb-4"
+              style="color: #6c63ff; font-size: 2rem;"
+            >
+              Chat Bot
+            </h1>
+            <!-- Form -->
+            <form action="/login" method="POST">
+              <!-- Email Field -->
+              <div class="mb-4">
+                <label for="username" class="form-label fs-6">Email address</label>
+                <input
+                  type="email"
+                  class="form-control bg-dark text-light border-secondary"
+                  id="username"
+                  name="username"
+                  placeholder="Email address"
+                  required
+                />
+              </div>
+              <!-- Password Field -->
+              <div class="mb-4">
+                <label for="password" class="form-label fs-6">Password</label>
+                <input
+                  type="password"
+                  class="form-control bg-dark text-light border-secondary"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                />
+              </div>
+              <!-- Submit Button -->
+              <div class="d-grid">
+                <button
+                  type="submit"
+                  class="btn btn-lg"
+                  style="background-color: #6c63ff; border-color: #6c63ff; color: #fff;"
+                >
+                  Go
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
+        <!-- Links -->
+        <div class="d-flex justify-content-between mt-4">
+          <a href="/registerEmail" class="text-decoration-none" style="color: #6c63ff;">
+            Sign up
+          </a>
+          <a href="/forgot" class="text-decoration-none" style="color: #6c63ff;">
+            Forget password
+          </a>
+        </div>
+      </div>
     </div>
+  </div>
 </main>

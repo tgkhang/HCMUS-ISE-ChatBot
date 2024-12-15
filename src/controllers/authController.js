@@ -15,7 +15,7 @@ controller.show= (req,res) => {
 controller.login = (req, res, next) => {
     // Extracting the 'keepSignedIn' value from the request body
     let keepSignedIn = req.body.keepSignedIn;
-    let reqUrl= req.body.reqUrl ? req.body.reqUrl : '/home';
+    let reqUrl= req.body.reqUrl ? req.body.reqUrl : '/';
     // Authenticate using the 'local-login' strategy
     passport.authenticate('local-login', (error, user) => {
         // If there is an error during authentication, pass it to the next middleware
