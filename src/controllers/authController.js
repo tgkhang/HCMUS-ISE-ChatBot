@@ -13,65 +13,62 @@ controller.show= (req,res) => {
 };
 // Login controller function
 controller.login = (req, res, next) => {
-    // Extracting the 'keepSignedIn' value from the request body
+    
     let keepSignedIn = req.body.keepSignedIn;
     let reqUrl= req.body.reqUrl ? req.body.reqUrl : '/';
-    // Authenticate using the 'local-login' strategy
+   
     passport.authenticate('local-login', (error, user) => {
-        // If there is an error during authentication, pass it to the next middleware
+        
         if (error) {
             console.log('Error during login:', error);
             return next(error);
         }
 
-        // If no user is found, redirect to the login page
+     
         if (!user) {
             console.log('No user found');
             //return res.redirect('/login');
             return res.redirect(`/login?reqUrl=${reqUrl}`);
         }
 
-        // Log in the user using req.logIn provided by Passport.js
+      
         req.logIn(user, (error) => {
-            // Handle login errors
+        
             if (error) {
                 return next(error);
             }
             console.log("hihi"+user.id);
 
-            // Store user ID in the session
+            
             req.session.ID = user.id;
 
             // Set the session cookie expiration based on 'keepSignedIn'
             req.session.cookie.maxAge = keepSignedIn ? (24 * 60 * 60 * 1000) : null;
-
-            // Redirect the user to their account page after successful login
-            //return res.redirect('/home');
             return res.redirect(reqUrl);
         });
-    })(req, res, next); // Passing req, res, and next to the authenticate middleware
+    })(req, res, next); 
 };
 controller.logout = (req, res, next) => {
-    // Check if a session exists
+   
     if (!req.session) {
         console.log('No session to destroy');
         return res.redirect('/');
     }
 
-    // Check if the user is authenticated
+   
     if (!req.isAuthenticated()) {
         console.log('User is not authenticated');
         return res.redirect('/');
     }
 
-    // Destroy the session
+   
     req.session.destroy((err) => {
         if (err) {
             console.error('Error destroying session:', err);
             return next(err);
         }
 
-        // Clear the cookie manually
+      
         res.clearCookie('connect.sid', { path: '/' });
 
         console.log('User logged out and session destroyed');
