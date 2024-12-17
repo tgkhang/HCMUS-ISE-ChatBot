@@ -195,8 +195,8 @@ html, body {
     color: #ECECF1;
 }
 .bot-icon {
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     margin-left: 10px;
 }
 
@@ -226,7 +226,10 @@ html, body {
 }
 
 .regenerate-response {
-    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
     border-color: #C5C5D1;
     border-style: solid;
     border-width: 1px;
@@ -253,7 +256,7 @@ html, body {
     margin-top: 16px;
     margin-left: 22px;
     color: #C5C5D1; 
-    font-size: 13px; 
+    font-size: 20px; 
     font-family: Inter; 
     font-weight: 500; 
     line-height: 0px; 
@@ -324,4 +327,31 @@ html, body {
 
 .bin-icon:hover {
     opacity: 0.7;
+}
+
+.ai-selector {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.ai-btn {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.ai-btn.active {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.ai-btn:hover {
+    background: rgba(76, 175, 80, 0.2);
 }

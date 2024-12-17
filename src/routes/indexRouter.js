@@ -18,4 +18,10 @@ router.use('/chat', chatRoute);
 const geminiRoute = require('../routes/api_gemini');
 router.use('/api/gemini', geminiRoute);
 
+const chatgptRoute = require('../routes/api_chatgpt');
+router.use('/api/chatgpt', chatgptRoute);
+
+const huggingfaceRoute = require('../routes/api_hunggingface');
+router.use('/api/huggingface', huggingfaceRoute);
+
 module.exports = router;

@@ -1,7 +1,3 @@
-{{!-- <div class="container-fluid">
-    {{> boxChat}}
-</div> --}}
-
 <div class="container-fluid">
     <div class="left-sidebar">
         <button class="new-chat">
@@ -9,11 +5,22 @@
             <p>New chat</p>
         </button>
 
+        <!-- Thêm button chọn AI trong index.hbs -->
+        <div class="ai-selector">
+            <button id="geminiBtn" class="ai-btn active">
+                <img src="/images/gemini_icon.png" width="30px" height="30px" style="margin-right: 5px;">Gemini</button>
+            <button id="chatgptBtn" class="ai-btn">
+                <img src="/images/gpticon.png" width="20px" height="20px" style="margin-right: 5px;">ChatGPT</button>
+        </div>
+
+
         <div id="chat-history-container">
             <!-- Chat histories will be loaded here -->
         </div>
 
-        <div class="log-out">
+        <form id="logoutForm" action="/logout" method="POST" style="display: none;"></form>
+
+        <div class="log-out" onclick="document.getElementById('logoutForm').submit(); return false;">
             <img src="/images/logout.png" alt="log out icon">
             <p class="LogOutText">Log out</p>
         </div>
@@ -21,57 +28,18 @@
 
     <div class="Right-Area">
         <div class="chat-area">
-            {{!-- <div class="user-query">
-                <img src="/images/usericon.png" alt="user icon" class="user-icon">
-                <p class="query-text">User's query</p>
-            </div>
-
-            <div class="bot-answer">
-                <div class="bot-info">
-                    <img src="/images/gpticon.png" alt="gpt icon" class="bot-icon">
-                    <p class="answer-text">Bot's answer</p>
-                </div>
-
-                <div class="rating">
-                    <img src="/images/like.png" alt="like icon" class="like-icon">
-                    <img src="/images/dislike.png" alt="dislike icon" class="dislike-icon">
-                </div>
-            </div> --}}
+            
         </div>
 
         <div class="user-interact">
-            <button id="saveChat" class="save-chat-btn">
-                <img src="/images/save.png" alt="save icon">
+            <button class="regenerate-response" id="saveChat">
+                <img src="/images/save_icon.png" alt="save icon" width="20px" height="20px">
                 <p>Save Chat</p>
-            </button>
-            <button class="regenerate-response">
-                <p>Regenerate response</p>
-                <div class="Refresh" style="width: 11px; height: 9px; left: 14px; top: 14px; position: absolute">
-                    <div class="Vector"
-                        style="width: 3px; height: 3px; left: 0px; top: 0.50px; position: absolute; border: 0.75px #C5C5D1 solid">
-                    </div>
-                    <div class="Vector"
-                        style="width: 3px; height: 3px; left: 8px; top: 5.50px; position: absolute; border: 0.75px #C5C5D1 solid">
-                    </div>
-                    <div class="Vector"
-                        style="width: 11px; height: 9px; left: 0px; top: 0px; position: absolute; border: 0.75px #C5C5D1 solid">
-                    </div>
-                </div>
             </button>
 
             <div class="user-input">
-                {{!-- <button class="model-selection">
-                    <p><strong>Change AI Model</strong></p>
-                    <img src="/images/change.png" alt="change icon" class="change-icon">
-                </button> --}}
-                {{!-- <form class="input-field">
-                    <input id="userInput" class="ask-bot" , type="text" , placeholder="Ask the bot">
-                    <img id="chatForm" src="/images/send.png" alt="send icon" class="send-icon">
-                </form> --}}
-
-                <form id="chatForm" class="d-flex input-field" >
-                    <input type="text" class="form-control me-2 ask-bot" id="userInput"
-                        placeholder="Ask the bot">
+                <form id="chatForm" class="d-flex input-field">
+                    <input type="text" class="form-control me-2 ask-bot" id="userInput" placeholder="Ask the bot">
                     <button type="submit" class="btn btn-primary">
                         <img src="/images/send.png" class="send-icon">
                     </button>
@@ -81,20 +49,22 @@
     </div>
 </div>
 
-
 <!-- Đảm bảo bạn đã thêm marked.js từ CDN -->
 <script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/lib/marked.min.js"></script>
 
-<!-- Add this before closing body tag -->
 <script>
 
     let currentMessages = [];
-
+    let currentAI = 'gemini'; // Default AI
+    let src_icon = '/images/gemini_icon.png';
+    let isProcessing = false; // Biến để track trạng thái đang xử lý
 
     window.onload = async function () {
         const userInput = "{{user_input}}";
         console.log("CHECK USER INPUT: ", userInput);
 
+        if (!userInput.trim()) return;
+
         // Lưu message vào mảng
         currentMessages.push({
             role: 'user',
@@ -107,115 +77,82 @@
                                         <img src="/images/usericon.png" alt="user icon" class="user-icon">
                                         <p class="query-text">${userInput}</p>
                                     </div>`;
-        try {
-            const response = await fetch('/api/gemini', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: userInput })
-            });
 
-            const data = await response.json();
-
-            // Use the correct function from marked (for version 4+)
-            const formattedResponse = marked.parse(data.response);
-
-            // Lưu response từ bot
-            currentMessages.push({
-                role: 'assistant',
-                content: formattedResponse
-            });
-
-            // Add AI response with formatted content
-            chatMessages.innerHTML += `<div class="bot-answer">
-                                            <div class="bot-info">
-                                                <img src="/images/gpticon.png" alt="gpt icon" class="bot-icon">
-                                                <p class="answer-text">${formattedResponse}</p>
-                                            </div>
-
-                                            <div class="rating">
-                                                <img src="/images/like.png" alt="like icon" class="like-icon">
-                                                <img src="/images/dislike.png" alt="dislike icon" class="dislike-icon">
-                                            </div>
-                                        </div>`;
-        } catch (error) {
-            console.error('Error:', error);
-            chatMessages.innerHTML += `
-            <div class="message error-message">
-                <p>Sorry, something went wrong. Please try again.</p>
+        // Create container for assistant's response
+        const assistantDiv = document.createElement('div');
+        assistantDiv.className = 'bot-answer';
+        assistantDiv.innerHTML = `
+            <div class="bot-info">
+                <img src=${src_icon} alt="gpt icon" class="bot-icon" width="30px" height="30px">
+                <p class="answer-text"></p>
+            </div>
+            <div class="rating">
+                <img src="/images/like.png" alt="like icon" class="like-icon">
+                <img src="/images/dislike.png" alt="dislike icon" class="dislike-icon">
             </div>
         `;
-        }
-    };
-
-    document.getElementById('chatForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const userInput = document.getElementById('userInput').value;
-
-        // Lưu message vào mảng
-        currentMessages.push({
-            role: 'user',
-            content: userInput
-        });
-
-        // Add user message
-        const chatMessages = document.querySelector('.chat-area');
-        chatMessages.innerHTML += `<div class="user-query">
-                                        <img src="/images/usericon.png" alt="user icon" class="user-icon">
-                                        <p class="query-text">${userInput}</p>
-                                    </div>`;
+        chatMessages.appendChild(assistantDiv);
+        
+        const answerText = assistantDiv.querySelector('.answer-text');
+        let fullResponse = '';
 
         try {
-            const response = await fetch('/api/gemini', {
+            const response = await fetch(currentAI === 'gemini' ? '/api/gemini' : '/api/chatgpt', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ prompt: userInput })
             });
 
-            const data = await response.json();
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
 
-            // Use the correct function from marked (for version 4+)
-            const formattedResponse = marked.parse(data.response);
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                
+                const chunk = decoder.decode(value);
+                const lines = chunk.split('\n');
+                
+                for (const line of lines) {
+                    if (line.startsWith('data: ')) {
+                        const data = line.slice(5).trim();
+                        
+                        if (data === '[DONE]') {
+                            console.log('Stream completed');
+                            continue;
+                        }
+                        
+                        try {
+                            const parsed = JSON.parse(data);
+                            if (parsed.content) {
+                                fullResponse += parsed.content;
+                                answerText.innerHTML = marked.parse(fullResponse);
+                                chatMessages.scrollTop = chatArea.scrollHeight;
+                            }
+                        } catch (e) {
+                            console.error('Error parsing chunk:', e);
+                        }
+                    }
+                }
+            }
 
-            // Lưu response từ bot
+            // Sau khi stream hoàn tất, lưu response vào currentMessages
             currentMessages.push({
                 role: 'assistant',
-                content: formattedResponse
+                content: fullResponse
             });
 
-            // Add AI response with formatted content
-            chatMessages.innerHTML += `<div class="bot-answer">
-                                            <div class="bot-info">
-                                                <img src="/images/gpticon.png" alt="gpt icon" class="bot-icon">
-                                                <p class="answer-text">${formattedResponse}</p>
-                                            </div>
-
-                                            <div class="rating">
-                                                <img src="/images/like.png" alt="like icon" class="like-icon">
-                                                <img src="/images/dislike.png" alt="dislike icon" class="dislike-icon">
-                                            </div>
-                                        </div>`;
         } catch (error) {
             console.error('Error:', error);
-            // Add AI response with formatted content
-            chatMessages.innerHTML += `<div class="bot-answer">
-                                            <div class="bot-info">
-                                                <img src="/images/gpticon.png" alt="gpt icon" class="bot-icon">
-                                                <p class="answer-text">Something Wrong when chat !</p>
-                                            </div>
-
-                                            <div class="rating">
-                                                <img src="/images/like.png" alt="like icon" class="like-icon">
-                                                <img src="/images/dislike.png" alt="dislike icon" class="dislike-icon">
-                                            </div>
-                                        </div>`;
+            answerText.innerHTML = 'Sorry, something went wrong. Please try again.';
+            
+            // Lưu error message vào currentMessages
+            currentMessages.push({
+                role: 'assistant',
+                content: 'Sorry, something went wrong. Please try again.'
+            });
         }
-
-        // Clear input
-        document.getElementById('userInput').value = '';
-
-        // Scroll to bottom
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    });
+    };
 
 
     // Xử lý nút Save Chat
@@ -229,7 +166,7 @@
                     messages: currentMessages
                 })
             });
-            
+
             if (response.ok) {
                 loadChatHistory();
                 alert('Chat saved successfully!');
@@ -244,7 +181,7 @@
         try {
             const response = await fetch('/chat/history');
             const chats = await response.json();
-            
+
             const container = document.getElementById('chat-history-container');
             container.innerHTML = chats.map(chat => `
                 <div class="chat-history" data-chat-id="${chat.id}">
@@ -257,14 +194,14 @@
                     <img src="/images/share.png" alt="share icon" class="share-icon">
                 </div>
             `).join('');
-            
+
             // Add click event listeners to chat histories
             document.querySelectorAll('.chat-history').forEach(chatElement => {
                 chatElement.addEventListener('click', (e) => {
                     if (!e.target.matches('.pen-icon, .bin-icon, .share-icon')) {
                         const chatId = chatElement.dataset.chatId;
                         loadChatDetail(chatId);
-                        
+
                         document.querySelectorAll('.chat-history').forEach(el => {
                             el.classList.remove('selected');
                         });
@@ -277,7 +214,7 @@
             document.querySelectorAll('.bin-icon').forEach(deleteBtn => {
                 deleteBtn.addEventListener('click', async (e) => {
                     e.stopPropagation(); // Ngăn không cho sự kiện click lan ra chat-history
-                    
+
                     const chatId = e.target.dataset.chatId;
                     if (confirm('Are you sure you want to delete this chat?')) {
                         try {
@@ -292,7 +229,7 @@
                                     document.querySelector('.chat-area').innerHTML = '';
                                     currentMessages = [];
                                 }
-                                
+
                                 // Reload chat history
                                 loadChatHistory();
                             } else {
@@ -318,18 +255,19 @@
         try {
             const response = await fetch(`/chat/${chatId}`);
             const chat = await response.json();
-            
+
             // Clear current chat area
             const chatMessages = document.querySelector('.chat-area');
             chatMessages.innerHTML = '';
-            
+
             // Reset currentMessages array
             currentMessages = [];
-            
+
             // Display each message
             chat.messages.forEach(message => {
+                message.content = marked.parse(message.content);
                 currentMessages.push(message);
-                
+
                 if (message.role === 'user') {
                     chatMessages.innerHTML += `
                         <div class="user-query">
@@ -350,10 +288,10 @@
                         </div>`;
                 }
             });
-            
+
             // Scroll to bottom
             chatMessages.scrollTop = chatMessages.scrollHeight;
-            
+
         } catch (error) {
             console.error('Error loading chat detail:', error);
         }
@@ -363,13 +301,168 @@
     document.querySelector('.new-chat').addEventListener('click', () => {
         // Clear chat area
         document.querySelector('.chat-area').innerHTML = '';
-        
+
         // Reset currentMessages array
         currentMessages = [];
-        
+
         // Remove selected state from all chat histories
         document.querySelectorAll('.chat-history').forEach(el => {
             el.classList.remove('selected');
         });
     });
+
+    // AI selector buttons
+    document.getElementById('geminiBtn').addEventListener('click', function () {
+        currentAI = 'gemini';
+        src_icon = '/images/gemini_icon.png';
+        this.classList.add('active');
+        document.getElementById('chatgptBtn').classList.remove('active');
+
+        // Clear chat area
+        document.querySelector('.chat-area').innerHTML = '';
+
+        // Reset currentMessages array
+        currentMessages = [];
+
+        // Remove selected state from all chat histories
+        document.querySelectorAll('.chat-history').forEach(el => {
+            el.classList.remove('selected');
+        });
+    });
+
+    document.getElementById('chatgptBtn').addEventListener('click', function () {
+        currentAI = 'chatgpt';
+        src_icon = '/images/gpticon.png';
+        this.classList.add('active');
+        document.getElementById('geminiBtn').classList.remove('active');
+
+        // Clear chat area
+        document.querySelector('.chat-area').innerHTML = '';
+
+        // Reset currentMessages array
+        currentMessages = [];
+
+        // Remove selected state from all chat histories
+        document.querySelectorAll('.chat-history').forEach(el => {
+            el.classList.remove('selected');
+        });
+    });
+
+    // Modify your existing chat form submission
+    document.getElementById('chatForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const userInput = document.getElementById('userInput').value;
+        if (!userInput.trim()) return;
+
+        // Add user message to chat and currentMessages
+        currentMessages.push({
+            role: 'user',
+            content: userInput
+        });
+
+        // Add user message
+        const chatMessages = document.querySelector('.chat-area');
+        chatMessages.innerHTML += `<div class="user-query">
+                                        <img src="/images/usericon.png" alt="user icon" class="user-icon">
+                                        <p class="query-text">${userInput}</p>
+                                    </div>`;
+        
+        document.getElementById('userInput').value = '';
+
+        // Create container for assistant's response
+        const assistantDiv = document.createElement('div');
+        assistantDiv.className = 'bot-answer';
+        assistantDiv.innerHTML = `
+            <div class="bot-info">
+                <img src=${src_icon} alt="gpt icon" class="bot-icon" width="40px" height="40px">
+                <p class="answer-text"></p>
+            </div>
+            <div class="rating">
+                <img src="/images/like.png" alt="like icon" class="like-icon">
+                <img src="/images/dislike.png" alt="dislike icon" class="dislike-icon">
+            </div>
+        `;
+        chatMessages.appendChild(assistantDiv);
+        
+        const answerText = assistantDiv.querySelector('.answer-text');
+        let fullResponse = '';
+
+        try {
+            const apiEndpoint = currentAI === 'gemini' ? '/api/gemini' : '/api/chatgpt';
+            const response = await fetch(apiEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ prompt: userInput })
+            });
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                
+                const chunk = decoder.decode(value);
+                const lines = chunk.split('\n');
+                
+                for (const line of lines) {
+                    if (line.startsWith('data: ')) {
+                        const data = line.slice(5).trim();
+                        
+                        if (data === '[DONE]') {
+                            console.log('Stream completed');
+                            continue;
+                        }
+                        
+                        try {
+                            const parsed = JSON.parse(data);
+                            if (parsed.content) {
+                                fullResponse += parsed.content;
+                                answerText.innerHTML = marked.parse(fullResponse);
+                                chatMessages.scrollTop = chatMessages.scrollHeight;
+                            }
+                        } catch (e) {
+                            console.error('Error parsing chunk:', e);
+                        }
+                    }
+                }
+            }
+
+            // After streaming is complete, add assistant's full response to currentMessages
+            currentMessages.push({
+                role: 'assistant',
+                content: fullResponse
+            });
+
+        } catch (error) {
+            console.error('Error:', error);
+            answerText.textContent = 'Sorry, there was an error processing your request.';
+            
+            // Add error message to currentMessages
+            currentMessages.push({
+                role: 'assistant',
+                content: 'Sorry, there was an error processing your request.'
+            });
+        }
+    });
+
+    // Thêm CSS animation cho typing effect
+    const style = document.createElement('style');
+    style.textContent = `
+        .answer-text {
+            border-right: 2px solid transparent;
+            animation: blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #666 }
+        }
+    `;
+    document.head.appendChild(style);
+
+
 </script>
