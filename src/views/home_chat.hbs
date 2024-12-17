@@ -12,12 +12,11 @@
                     <a href="/home/gemini" class="list-group-item list-group-item-action">Gemini</a>
                 </div>
             </div>
-            <div class="mt-auto pt-3">
+            <div class="logout-container">
                 <form id="logoutForm" action="/logout" method="POST" style="display: none;"></form>
-                            
-
-                <a href="#" class="btn btn-outline-light w-100" onclick="document.getElementById('logoutForm').submit(); return false;">Logout</a>
-
+                <button class="logout-btn" onclick="document.getElementById('logoutForm').submit(); return false;">
+                    Logout
+                </button>
             </div>
         </div>
 

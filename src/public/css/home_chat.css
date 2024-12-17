@@ -1,85 +1,205 @@
 body {
-    background-color: #fae1c7; /* Màu nền màn hình */
-    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); /* Gradient background */
+    font-family: 'Poppins', Arial, sans-serif;
+    min-height: 100vh;
 }
+
 .header {
     text-align: center;
     margin-top: 20px;
-    color: #34495e; /* Màu chữ tiêu đề */
+    color: #ffffff;
 }
+
 .header h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
+    font-size: 2.8rem;
+    font-weight: 700;
+    background: linear-gradient(to right, #fff, #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
 }
+
 .header p {
-    color: #7f8c8d; /* Màu chữ phụ */
+    color: #cbd5e1;
+    font-size: 1.2rem;
 }
+
 .card {
-    background: #fbc192; /* Màu nền card bình thường */
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+    background: rgba(255, 255, 255, 0.05); /* Semi-transparent white */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
+
 .card:hover {
-    cursor: pointer; /* Đổi kiểu con chuột thành con trỏ */
-    transform: scale(1.05); /* Phóng to nhẹ */
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Đổ bóng khi hover */
-    background-color: #deb4d7; /* Màu nền khi hover */
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 12px 40px rgba(138, 43, 226, 0.2);
+    border: 1px solid rgba(167, 139, 250, 0.3);
 }
+
 .card-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #2c3e50; /* Màu chữ tiêu đề trong card */
+    color: #a78bfa;
+    margin: 0;
 }
+
 .card-text {
-    color: #7f8c8d; /* Màu chữ phụ trong card */
+    color: #e2e8f0;
+    font-size: 0.95rem;
 }
+
 .input-section {
     margin-top: 20px;
-    background: #fae1c78b;
-    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 25px;
     border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
+
+.input-section h4 {
+    color: #a78bfa;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
 .input-group input {
-    border-radius: 10px;
-    border: 1px solid #dfe6e9;
-    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(167, 139, 250, 0.3);
+    padding: 12px 20px;
+    background: rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    font-size: 1rem;
 }
+
 .input-group input:focus {
     outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.3);
+    border-color: #a78bfa;
 }
+
+.input-group .btn {
+    background: linear-gradient(45deg, #8b5cf6, #a78bfa);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-weight: 500;
+    border-radius: 12px;
+    margin-left: 10px;
+    transition: all 0.3s ease;
+}
+
 .input-group .btn:hover {
-    background-color: #0056b3; /* Màu khi hover */
+    background: linear-gradient(45deg, #7c3aed, #8b5cf6);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
 }
 
 .prompt {
-    display: flex; /* Căn hàng ngang giữa icon và tiêu đề */
-    align-items: center; /* Căn giữa icon và tiêu đề theo chiều dọc */
-    justify-content: center; /* Đảm bảo icon và tiêu đề bắt đầu từ trái */
-    gap: 5px; /* Tạo khoảng cách giữa icon và tiêu đề */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 1rem;
 }
 
 .prompt svg {
-    color: #007bff; /* Đổi màu icon sang xanh nước biển */
-}
-
-.card-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #2c3e50;
-    margin: 0; /* Loại bỏ margin mặc định để căn chỉnh chính xác */
+    color: #a78bfa;
+    filter: drop-shadow(0 0 8px rgba(167, 139, 250, 0.3));
 }
 
 .sidebar {
-    width: 200px; /* Chiều rộng cố định */
-    min-width: 150px; /* Chiều rộng tối thiểu */
-    max-width: 250px; /* Chiều rộng tối đa */
-    background-color: #6f6485;
+    width: 240px;
+    min-width: 200px;
+    max-width: 280px;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem 1rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    height: 100vh;
+}
+
+.list-memory-chat a {
+    color: #e2e8f0;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 12px 20px;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: block;
+}
+
+.list-memory-chat a:hover {
+    background: rgba(167, 139, 250, 0.2);
+    border-color: #a78bfa;
+    color: #ffffff;
+    transform: translateX(5px);
+}
+
+.input-group input::placeholder {
+    color: #94a3b8;
+}
+
+/* Xóa phần hiệu ứng cũ */
+.card-item {
+    position: relative;
+}
+
+/* Thêm hiệu ứng mới cho card-body */
+.card .card-body {
+    position: relative;
+    z-index: 1;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.card .card-body::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 16px;
+    background: linear-gradient(45deg, #8b5cf6, #a78bfa);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card .card-body:hover::after {
+    opacity: 0.3;
+}
+
+/* Thêm style mới cho container của nút logout */
+.logout-container {
+    margin-top: auto;
+    padding-top: 1rem;
+}
+
+/* Style cho nút logout */
+.logout-btn {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    color: #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 20px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(167, 139, 250, 0.2);
+    border-color: #a78bfa;
+    color: #ffffff;
 }
