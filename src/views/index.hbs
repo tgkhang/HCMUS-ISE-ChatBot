@@ -354,6 +354,11 @@
         
         const userInput = document.getElementById('userInput').value;
         if (!userInput.trim()) return;
+        const countWords = userInput.trim().length;
+        if (countWords > 1000) {
+            alert('Input exceeds the maximum allowed token limit !');
+            return;
+        }
 
         // Add user message to chat and currentMessages
         currentMessages.push({
