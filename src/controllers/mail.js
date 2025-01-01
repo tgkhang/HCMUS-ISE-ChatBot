@@ -17,7 +17,7 @@ function sendForgotPasswordMail(user,host,resetLink)
                 {
                   From: {
                     Email: "tgkhang22@clc.fitus.edu.vn",
-                    Name: "THREAD"
+                    Name: "Chat Bot Web"
                   },
                   To: [
                     {
